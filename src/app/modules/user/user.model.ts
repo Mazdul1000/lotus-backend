@@ -5,10 +5,16 @@ const userSchema = new Schema<IUser>({
   username: {
     type: 'string',
     required: true,
+    unique: true,
+  },
+  role: {
+    type: 'string',
+    required: true,
   },
   email: {
     type: 'string',
     required: true,
+    unique: true,
   },
   password: {
     type: 'string',
