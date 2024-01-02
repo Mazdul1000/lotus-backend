@@ -20,7 +20,7 @@ const getSingleService = async(payload:string):Promise<IService |null> => {
 }
 
 const updateService = async (id: string, payload:Partial<IService>):Promise<IService |null> => {
-    const result = await Service.findOneAndUpdate({ _id: id}, payload);
+    const result = await Service.findOneAndUpdate({ _id: id}, payload, { new: true });
     return result;
 }
 

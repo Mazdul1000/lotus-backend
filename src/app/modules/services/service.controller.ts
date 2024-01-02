@@ -50,7 +50,7 @@ const getSingleService = catchAsync(
 const updateService = catchAsync(
     async (req:Request, res: Response) => {
         const { id } = req.params;
-        const { data } = req.body;
+        const data = req.body;
         const result = await ServiceServices.updateService(id, data);
 
         sendResponse<IService>(res, {
