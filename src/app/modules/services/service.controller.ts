@@ -3,6 +3,8 @@ import catchAsync from "../../../shared/catchAsync"
 import { ServiceServices } from "./service.service";
 import sendResponse from "../../../shared/sendResponse";
 import { IService } from "./service.interface";
+import { serviceFilterableFields } from "./service.constants";
+import pick from "../../../shared/pick";
 
 const createService = catchAsync(
     async (req:Request, res:Response):Promise<void> => {
@@ -19,16 +21,19 @@ const createService = catchAsync(
 )
 
 const getAllServices = catchAsync(
-    // Filter options
     // eslint-disable-next-line no-unused-vars
     async (req:Request, res:Response):Promise<void> => {
-        const result = await ServiceServices.getAllServices();
+        const paginationFields = ['page', 'limit', 'sortBy', 'sortOrder'];
+        const filters = pick(req.query, serviceFilterableFields);
+        const paginationOptions = pick(req.query, paginationFields);
+        const result = await ServiceServices.getAllServices(filters, paginationOptions);
         
         sendResponse<IService[]>(res, {
             success: true,
             statusCode: 200,
             message: "Services data retrieved successfully",
-            data: result
+            meta: result.meta,
+            data: result.data
         })
     }
 )

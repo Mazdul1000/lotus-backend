@@ -33,3 +33,9 @@ export type ILocation =
   };
   
   export type ServiceModel = Model<IService, Record<string, unknown>>;
+
+  export type IServiceFilters = {
+    searchTerm?: string;
+    location?: string;
+    category?: string
+  };
