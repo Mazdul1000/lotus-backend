@@ -18,7 +18,7 @@ export type IUser = {
 };
 
 export type IUserMethods = {
-  isUserExists(username: string): Promise<Partial<IUser>| null>;
+  isUserExists(username: string): Promise<Partial<IUser> | null>;
   isPasswordMatched(givenPassword:string, savedPassword:string): Promise<boolean>;
 }
 
