@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from 'mongoose';
 
 type IUserRole = 'user' | 'admin' | 'super-admin';
@@ -16,4 +17,9 @@ export type IUser = {
   dateOfBirth: string;
 };
 
-export type UserModel = Model<IUser, Record<string, unknown>>;
+export type IUserMethods = {
+  isUserExists(username: string): Promise<Partial<IUser> | null>;
+  isPasswordMatched(givenPassword:string, savedPassword:string): Promise<boolean>;
+}
+
+export type UserModel = Model<IUser, Record<string, unknown>, IUserMethods>;
