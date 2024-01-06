@@ -2,10 +2,12 @@ import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
 import { jwtHelpers } from '../../../helpers/jwtHelpers'
 import User from '../user/user.model'
-import { ILoginUser, ILoginUserResponse } from './auth.interface'
+import { ILoginUser, ILoginUserResponse, IRefreshTokenResponse } from './auth.interface'
 import { Secret } from 'jsonwebtoken'
 
-const loginUser = async (loginData: ILoginUser):Promise<ILoginUserResponse> => {
+const loginUser = async (
+  loginData: ILoginUser,
+): Promise<ILoginUserResponse> => {
   const { username, password } = loginData
 
   const user = new User()
@@ -25,27 +27,62 @@ const loginUser = async (loginData: ILoginUser):Promise<ILoginUserResponse> => {
   }
 
   // create jwt token and refresh token
-  const {username:userName, role} = isUserExist;
+  const { username: userName, role } = isUserExist
 
   const accessToken = jwtHelpers.createToken(
-    { userName, role},
+    { userName, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
   )
 
   // refresh token
   const refreshToken = jwtHelpers.createToken(
-    { userName, role },
+    { username: userName, role },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string,
   )
 
   return {
     accessToken,
-    refreshToken
+    refreshToken,
+  }
+}
+
+const refreshToken = async (token: string):Promise<IRefreshTokenResponse> => {
+  const user = new User()
+
+  let verfiedToken = null
+
+  try {
+    // verify token
+    verfiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret,
+    )
+  } catch (err) {
+    throw new ApiError(403, 'Invalid refresh token')
+  }
+
+  // verfiy user
+  const isUserExist = await user.isUserExists(verfiedToken?.username)
+  if (!isUserExist) {
+    throw new ApiError(500, 'User does not exists')
+  }
+
+  const { username, role } = isUserExist
+  // create new access token
+  const newAccessToken = jwtHelpers.createToken(
+    { username, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string,
+  )
+
+  return {
+    accessToken: newAccessToken,
   }
 }
 
 export const AuthService = {
   loginUser,
+  refreshToken,
 }
