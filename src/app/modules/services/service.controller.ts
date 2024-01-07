@@ -8,6 +8,8 @@ import pick from "../../../shared/pick";
 
 const createService = catchAsync(
     async (req:Request, res:Response):Promise<void> => {
+       const { authorization} = req.headers;
+       console.log(authorization)
         const data = req.body;
         const result = await ServiceServices.createService(data);
 
@@ -23,6 +25,7 @@ const createService = catchAsync(
 const getAllServices = catchAsync(
     // eslint-disable-next-line no-unused-vars
     async (req:Request, res:Response):Promise<void> => {
+        console.log(req.user);
         const paginationFields = ['page', 'limit', 'sortBy', 'sortOrder'];
         const filters = pick(req.query, serviceFilterableFields);
         const paginationOptions = pick(req.query, paginationFields);

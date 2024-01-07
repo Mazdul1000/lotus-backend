@@ -3,6 +3,7 @@ import cors from 'cors'
 import routes from './app/routes'
 import path from 'path';
 import fs from 'fs';
+import cookieParser from 'cookie-parser';
 
 import markdownIt from 'markdown-it';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
@@ -15,6 +16,7 @@ app.use(cors())
 // parser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use('/api/v1', routes)
 
 
