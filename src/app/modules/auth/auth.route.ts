@@ -31,6 +31,11 @@ router.post(
 )
 
 // change password
-router.post('/change-password', auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER), validateRequest(AuthValidation.changePasswordZodSchema), AuthController.changePassword)
+router.post(
+  '/change-password',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
+  validateRequest(AuthValidation.changePasswordZodSchema),
+  AuthController.changePassword,
+)
 
 export const AuthRoutes = router

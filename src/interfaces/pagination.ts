@@ -1,7 +1,6 @@
 export type IPaginationOptions = {
-    page?: number;
-    limit?: number;
-    sortBy?: string | undefined;
-    sortOrder?: 'asc' | 'desc' | undefined;
-  };
-  
+  page?: number
+  limit?: number
+  sortBy?: string | undefined
+  sortOrder?: 'asc' | 'desc' | undefined
+}

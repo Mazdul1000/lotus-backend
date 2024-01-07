@@ -33,7 +33,7 @@ const loginUser = async (
   }
 
   // create jwt token and refresh token
-  const { username: userName, role } = isUserExist;
+  const { username: userName, role } = isUserExist
 
   const accessToken = jwtHelpers.createToken(
     { username, role },
@@ -92,10 +92,10 @@ const changePassword = async (
   userData: JwtPayload | null,
   payload: IChangePassword,
 ): Promise<void> => {
-  const { oldPassword, newPassword } = payload;
+  const { oldPassword, newPassword } = payload
 
   // create instance for accessing methods
-  const user = new User();
+  const user = new User()
 
   // check user exists
   const isUserExist = await user.isUserExists(userData?.username)
@@ -103,14 +103,13 @@ const changePassword = async (
     throw new ApiError(500, 'User does not exists')
   }
 
-   // check old password
-   if (
+  // check old password
+  if (
     isUserExist.password &&
     !(await user.isPasswordMatched(oldPassword, isUserExist?.password))
   ) {
     throw new ApiError(401, 'Password is incorrect')
   }
-
 
   // hash new password
   const newHashedPassword = await bcrypt.hash(
@@ -122,10 +121,10 @@ const changePassword = async (
 
   const updatedData = {
     password: newHashedPassword,
-    passwordChangedAt: new Date()
+    passwordChangedAt: new Date(),
   }
 
-await User.findOneAndUpdate( {username: userData?.username}, updatedData)
+  await User.findOneAndUpdate({ username: userData?.username }, updatedData)
 }
 
 export const AuthService = {

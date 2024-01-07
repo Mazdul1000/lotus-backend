@@ -1,19 +1,18 @@
-
 export type ILoginUser = {
-    username: string;
-    password: string;
+  username: string
+  password: string
 }
 
 export type ILoginUserResponse = {
-    accessToken: string,
-    refreshToken?: string
+  accessToken: string
+  refreshToken?: string
 }
 
 export type IRefreshTokenResponse = {
-    accessToken: string
+  accessToken: string
 }
 
 export type IChangePassword = {
-    oldPassword: string,
-    newPassword: string
+  oldPassword: string
+  newPassword: string
 }

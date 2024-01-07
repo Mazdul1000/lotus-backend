@@ -1,8 +1,7 @@
-import { Router } from "express";
+import { Router } from 'express'
 
 const router = Router()
 
 // create
 
-
-export const UserRoutes = router;
+export const UserRoutes = router

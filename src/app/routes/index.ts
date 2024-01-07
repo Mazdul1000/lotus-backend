@@ -16,8 +16,8 @@ const moduleRoutes = [
   },
   {
     path: '/service',
-    route: ServiceRoutes
-  }
+    route: ServiceRoutes,
+  },
 ]
 
 moduleRoutes.forEach(route => {
