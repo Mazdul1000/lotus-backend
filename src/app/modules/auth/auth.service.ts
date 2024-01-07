@@ -2,8 +2,14 @@ import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
 import { jwtHelpers } from '../../../helpers/jwtHelpers'
 import User from '../user/user.model'
-import { ILoginUser, ILoginUserResponse, IRefreshTokenResponse } from './auth.interface'
-import { Secret } from 'jsonwebtoken'
+import {
+  IChangePassword,
+  ILoginUser,
+  ILoginUserResponse,
+  IRefreshTokenResponse,
+} from './auth.interface'
+import { JwtPayload, Secret } from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const loginUser = async (
   loginData: ILoginUser,
@@ -27,10 +33,10 @@ const loginUser = async (
   }
 
   // create jwt token and refresh token
-  const { username: userName, role } = isUserExist
+  const { username: userName, role } = isUserExist;
 
   const accessToken = jwtHelpers.createToken(
-    { userName, role },
+    { username, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
   )
@@ -48,7 +54,7 @@ const loginUser = async (
   }
 }
 
-const refreshToken = async (token: string):Promise<IRefreshTokenResponse> => {
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   const user = new User()
 
   let verfiedToken = null
@@ -82,7 +88,48 @@ const refreshToken = async (token: string):Promise<IRefreshTokenResponse> => {
   }
 }
 
+const changePassword = async (
+  userData: JwtPayload | null,
+  payload: IChangePassword,
+): Promise<void> => {
+  const { oldPassword, newPassword } = payload;
+
+  // create instance for accessing methods
+  const user = new User();
+
+  // check user exists
+  const isUserExist = await user.isUserExists(userData?.username)
+  if (!isUserExist) {
+    throw new ApiError(500, 'User does not exists')
+  }
+
+   // check old password
+   if (
+    isUserExist.password &&
+    !(await user.isPasswordMatched(oldPassword, isUserExist?.password))
+  ) {
+    throw new ApiError(401, 'Password is incorrect')
+  }
+
+
+  // hash new password
+  const newHashedPassword = await bcrypt.hash(
+    newPassword,
+    Number(config.bcrypt_salt_rounds),
+  )
+
+  // update password to database
+
+  const updatedData = {
+    password: newHashedPassword,
+    passwordChangedAt: new Date()
+  }
+
+await User.findOneAndUpdate( {username: userData?.username}, updatedData)
+}
+
 export const AuthService = {
   loginUser,
   refreshToken,
+  changePassword,
 }
