@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose';
-import { IService, ServiceModel } from './service.interface';
+import { Schema, model } from 'mongoose'
+import { IService, ServiceModel } from './service.interface'
 
 const serviceSchema = new Schema<IService>(
   {
@@ -30,10 +30,9 @@ const serviceSchema = new Schema<IService>(
   },
   {
     timestamps: true,
-  }
-);
+  },
+)
 
+const Service = model<IService, ServiceModel>('Service', serviceSchema)
 
-const Service = model<IService, ServiceModel>('Service', serviceSchema);
-
-export default Service;
+export default Service

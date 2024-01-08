@@ -1,12 +1,12 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 const createUserZodSchema = z.object({
   body: z.object({
     username: z.string({
-        required_error: 'Username must be provided'
+      required_error: 'Username must be provided',
     }),
-    email: z.string({ 
-        required_error: 'Email must be provided'
+    email: z.string({
+      required_error: 'Email must be provided',
     }),
     password: z.string({
       required_error: 'Password is required',
@@ -32,7 +32,7 @@ const createUserZodSchema = z.object({
       required_error: 'Date of Birth is required',
     }),
   }),
-});
+})
 
 const userUpdateValidation = z.object({
   body: z.object({
@@ -71,8 +71,8 @@ const userUpdateValidation = z.object({
       })
       .optional(),
   }),
-});
+})
 export const UserValidation = {
   createUserZodSchema,
   userUpdateValidation,
-};
+}

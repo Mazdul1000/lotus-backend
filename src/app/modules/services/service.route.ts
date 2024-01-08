@@ -28,6 +28,10 @@ router.patch(
 router.delete('/:id', ServiceController.deleteService)
 
 // get all service data
-router.get('/',auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN,), ServiceController.getAllServices)
+router.get(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  ServiceController.getAllServices,
+)
 
 export const ServiceRoutes = router

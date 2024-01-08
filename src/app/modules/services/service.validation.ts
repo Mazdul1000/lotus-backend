@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { serviceCategories, serviceLocations } from './service.constants';
+import { z } from 'zod'
+import { serviceCategories, serviceLocations } from './service.constants'
 
 const createServiceZodSchema = z.object({
   body: z.object({
@@ -16,13 +16,13 @@ const createServiceZodSchema = z.object({
       required_error: 'Category is required',
     }),
     description: z.string({
-        required_error: 'Description is required',
-      }),
-      thumbnail: z.string({
-        required_error: 'Thumbnail is required',
-      }),
+      required_error: 'Description is required',
+    }),
+    thumbnail: z.string({
+      required_error: 'Thumbnail is required',
+    }),
   }),
-});
+})
 const updateServiceZodSchema = z.object({
   body: z.object({
     title: z
@@ -45,18 +45,18 @@ const updateServiceZodSchema = z.object({
         required_error: 'Category is required',
       })
       .optional(),
-      description: z.string({
-        required_error: 'Description is required',
-      }),
+    description: z.string({
+      required_error: 'Description is required',
+    }),
     thumbnail: z
       .string({
         required_error: 'Thumbnail is required',
       })
       .optional(),
   }),
-});
+})
 
 export const ServiceValidations = {
   createServiceZodSchema,
   updateServiceZodSchema,
-};
+}

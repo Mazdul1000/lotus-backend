@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model } from 'mongoose'
 
 export type ILocation =
   | 'Dhaka'
@@ -8,9 +8,9 @@ export type ILocation =
   | 'Sylhet'
   | 'Comilla'
   | 'Rangpur'
-  | 'Mymensingh';
+  | 'Mymensingh'
 
-  export type ICategory =
+export type ICategory =
   | 'Counseling Services'
   | 'Mental Disorders'
   | 'Corporate Grooming'
@@ -23,19 +23,19 @@ export type ILocation =
   | 'Work-Life Balance'
   | 'Social Anxiety Support'
 
-  export type IService = {
-    title: string;
-    category: ICategory;
-    price: number;
-    location: ILocation;
-    description: string;
-    thumbnail: string;
-  };
-  
-  export type ServiceModel = Model<IService, Record<string, unknown>>;
+export type IService = {
+  title: string
+  category: ICategory
+  price: number
+  location: ILocation
+  description: string
+  thumbnail: string
+}
 
-  export type IServiceFilters = {
-    searchTerm?: string;
-    location?: string;
-    category?: string
-  };
+export type ServiceModel = Model<IService, Record<string, unknown>>
+
+export type IServiceFilters = {
+  searchTerm?: string
+  location?: string
+  category?: string
+}
