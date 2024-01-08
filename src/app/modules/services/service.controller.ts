@@ -6,23 +6,21 @@ import { IService } from './service.interface'
 import { serviceFilterableFields } from './service.constants'
 import pick from '../../../shared/pick'
 
-const createService = catchAsync(
-  async (req: Request, res: Response): Promise<void> => {
-    const data = req.body
-    const result = await ServiceServices.createService(data)
+const createService = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body
+  const result = await ServiceServices.createService(data)
 
-    sendResponse<IService>(res, {
-      success: true,
-      statusCode: 200,
-      message: 'New service created successfully',
-      data: result,
-    })
-  },
-)
+  sendResponse<IService>(res, {
+    success: true,
+    statusCode: 200,
+    message: 'New service created successfully',
+    data: result,
+  })
+})
 
 const getAllServices = catchAsync(
   // eslint-disable-next-line no-unused-vars
-  async (req: Request, res: Response): Promise<void> => {
+  async (req: Request, res: Response) => {
     const paginationFields = ['page', 'limit', 'sortBy', 'sortOrder']
     const filters = pick(req.query, serviceFilterableFields)
     const paginationOptions = pick(req.query, paginationFields)

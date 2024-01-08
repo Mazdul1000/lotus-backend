@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { Date, Model } from 'mongoose'
+import { Date, Model, ObjectId } from 'mongoose'
 
 type IUserRole = 'user' | 'admin' | 'super-admin'
 
 export type IUser = {
+  _id?: ObjectId
   username: string
   email: string
   password: string

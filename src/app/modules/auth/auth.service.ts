@@ -33,10 +33,10 @@ const loginUser = async (
   }
 
   // create jwt token and refresh token
-  const { username: userName, role } = isUserExist
+  const { username: userName, role, _id } = isUserExist
 
   const accessToken = jwtHelpers.createToken(
-    { username, role },
+    { username, role, _id },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
   )
